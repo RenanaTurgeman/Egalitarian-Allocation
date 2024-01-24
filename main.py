@@ -7,25 +7,29 @@ def egalitarian_allocation(valuations: list[list[float]]):
 
     for state in new_states:
         current_state, level = new_states.pop()
+        if level < n:
+            # in case that p1 get the stuff
+            new_state_p1 = [current_state[0] + valuations[0][level], current_state[1]]
+            if ((new_state_p1, level + 1) not in states)  \
+                    and optimal_division(valuations, states, n) >= pessimistic_division(valuations, states, n):
+                states.append((new_state_p1, level + 1))
+                new_states.append((new_state_p1, level + 1))
 
-        # in case that p1 get the stuff
-        new_state_p1 = [current_state[0] + valuations[0][level], current_state[1]]
-        if ((new_state_p1, level + 1) not in states)  \
-                and optimal_division(valuations, states, n) >= pessimistic_division(valuations, states, n):
-            states.append((new_state_p1, level + 1))
-            new_states.append((new_state_p1, level + 1))
+            # in case that p2 get the staff
+            new_state_p2 = [current_state[0], current_state[1] + valuations[1][level]]
+            if (new_state_p2, level + 1) not in states \
+                    and optimal_division(valuations, states, n) >= pessimistic_division(valuations, states, n):
+                states.append((new_state_p2, level + 1))
+                new_states.append((new_state_p2, level + 1))
 
-        # in case that p2 get the staff
-        new_state_p2 = [current_state[0], current_state[1] + valuations[1][level]]
-        if (new_state_p2, level + 1) not in states \
-                and optimal_division(valuations, states, n) >= pessimistic_division(valuations, states, n):
-            states.append((new_state_p2, level + 1))
-            new_states.append((new_state_p2, level + 1))
+    # An array that contains the final states in which all stuff were divided
+    filtered_states = [state for state in states if state[1] == n]
+    return max(filtered_states, key=lambda x: min(x[0]))
 
 
 def optimal_division(valuations: list[list[float]], states: [list[float], int], num: int) -> float:
     current_state, level = states.pop()
-    sum1, sum2 = 0
+    sum1, sum2 = 0, 0
     for stuff in range(num - level):
         sum1 += valuations[0][stuff + level]
         sum2 += valuations[1][stuff + level]
@@ -33,6 +37,10 @@ def optimal_division(valuations: list[list[float]], states: [list[float], int], 
 
 
 def pessimistic_division(valuations: list[list[float]], states: [list[float], int], num: int) -> float:
+    if not states:
+        # Handle the case when the list is empty
+        return 0
+
     current_state, level = states.pop()
     min_value = float('inf')  # Initialize with positive infinity
     for stuff in range(num - level):
