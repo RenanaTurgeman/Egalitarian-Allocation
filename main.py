@@ -62,6 +62,38 @@ def pessimistic_division(valuations: list[list[float]], states: [list[float], in
     return min(sum_value_p1, sum_value_p2)
 
 
+# def print_allocation(result, valuations):
+#     final_state, level = result
+#
+#     # is_all_zero = False
+#     # while not is_all_zero:
+#     #
+#
+#     # Create a list to store allocation details for each player
+#     allocation_details = []
+#
+#     # TODO: FIX IT
+#     # Iterate over each player and their corresponding values in the final_state
+#     for player, value in enumerate(final_state):
+#         allocated_items = [i for i in range(len(valuations[player]))]
+#         player_value = value
+#         allocation_details.append((player, allocated_items, player_value))
+#
+#     allocation_details.reverse()
+#
+#     for level, (player, items, value) in enumerate(allocation_details):
+#         items_str = ', '.join(map(str, items))
+#         print(f"Player {player} gets items {items_str} with value {value}")
+
+
 if __name__ == '__main__':
-    egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
+    # egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
+    egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
     # egalitarian_allocation([[4, 5], [8, 7]])
+    # egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
+    # egalitarian_allocation([[55, 11], [44, 33]])
+
+
+    # valuations = [[4, 5], [8, 7]]
+    # result = egalitarian_allocation(valuations)  # ([5, 8], 2)
+    # print_allocation(result, valuations)
