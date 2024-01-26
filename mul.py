@@ -1,14 +1,12 @@
 import random
 
 
-def egalitarian_allocation(valuations: list[list[float]]):
+def mul_egalitarian_allocation(valuations: list[list[float]]):
     n = len(valuations[0])  # number of stuff
     states = [([1, 1], 0)]
     new_states = [([1, 1], 0)]
 
     while new_states:
-        # print("new_states", new_states)
-        # print("states", states)
         current_state, level = new_states.pop()
         if level < n:
             # in case that p1 get the stuff
@@ -24,11 +22,9 @@ def egalitarian_allocation(valuations: list[list[float]]):
                     and optimal_division(valuations, states.copy()) >= pessimistic_division(valuations, states.copy()):
                 states.append((new_state_p2, level + 1))
                 new_states.append((new_state_p2, level + 1))
-            # print(states)
 
     # An array that contains the final states in which all stuff were divided
     filtered_states = [state for state in states if state[1] == n]
-    # print(states)
     print(max(filtered_states, key=lambda x: min(x[0])))
     return max(filtered_states, key=lambda x: min(x[0]))
 
@@ -65,7 +61,7 @@ def pessimistic_division(valuations: list[list[float]], states: [list[float], in
 if __name__ == '__main__':
     # egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
     # egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
-    egalitarian_allocation([[4, 5], [8, 7]])
+    mul_egalitarian_allocation([[4, 5], [8, 7]])
     # egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
     # egalitarian_allocation([[55, 11], [44, 33]])
 
