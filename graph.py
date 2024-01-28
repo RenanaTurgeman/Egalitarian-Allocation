@@ -2,6 +2,11 @@ import random
 import time
 import matplotlib.pyplot as plt
 
+# Graph the running time of your function as a function of the number of objects, when using both
+# The pruning rules we learned in the lecture, or only in rule A, or only in rule B, or in none of the rules.
+# I created a function for each of the rules,
+# I deleted the printing functions because it is not important here, and I calculated running times for each of them
+
 
 def egalitarian_allocation_with2rules(valuations: list[list[float]]):
     n = len(valuations[0])  # number of stuff
@@ -199,41 +204,37 @@ def measure_running_time(valuations_function, valuations):
 
 
 if __name__ == '__main__':
-    # egalitarian_allocation_with2rules([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
-    # egalitarian_allocation_with_first_rule([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
-    # egalitarian_allocation_with_second_rule([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
 
     valuations_list = [
-        [[4, 5], [8, 7]], #2
+        [[4, 5], [8, 7]],  # 2
 
-        [[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]], #5
+        [[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]],  # 5
 
-        [[4, 5, 6, 7, 8, 7, 4], [8, 7, 6, 5, 4, 5, 9]], #7
+        [[4, 5, 6, 7, 8, 7, 4], [8, 7, 6, 5, 4, 5, 9]],  # 7
 
-        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8]], # 10
+        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8]],  # 10
 
-        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4 , 6], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 3, 4]], # 12
+        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 6], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 3, 4]],  # 12
 
-        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8]], #15
+        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8]],  # 15
 
-        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 5, 4, 6, 7, 8], [8, 7, 6, 5, 4,7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8]], #17
+        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 5, 4, 6, 7, 8], [8, 7, 6, 5, 4, 7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8]],
+        # 17
 
         [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8, 2, 4, 1, 9, 5],
-         [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]], #20
+         [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]],  # 20
 
         [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8, 2, 4, 1, 9, 5, 4, 5, 6, 7, 8],
          [4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]],
 
-        # [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 4, 5, 6, 7, 8, 7, 8, 2, 4, 1, 9, 5, 4, 5, 6, 7, 8],
-        #  [4, 5, 6, 7, 8, 8, 4, 5, 6, 7, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]]
     ]
 
     num_products = [2, 5, 7, 10, 12, 15, 17, 20, 25]
 
     functions = [
-        # egalitarian_allocation_with2rules,
-        # egalitarian_allocation_with_first_rule,
-        # egalitarian_allocation_with_second_rule,
+        egalitarian_allocation_with2rules,
+        egalitarian_allocation_with_first_rule,
+        egalitarian_allocation_with_second_rule,
         egalitarian_allocation_without_rules,
     ]
 
@@ -241,7 +242,6 @@ if __name__ == '__main__':
         times = []
 
         for valuations in valuations_list:
-            print(valuations)
             elapsed_time = measure_running_time(function, valuations)
             times.append(elapsed_time)
         print("done")
@@ -257,10 +257,3 @@ if __name__ == '__main__':
         plt.grid(True)
         plt.show()
 
-        # Plotting
-        # plt.plot(range(len(functions)), times, label=str(valuations))
-        # plt.xticks(range(len(functions)), ['2 Rules', 'First Rule', 'Second Rule'])
-        # plt.ylabel('Running Time (s)')
-        # plt.title(f'Running Time of Egalitarian Allocation Functions\n{valuations}')
-        # plt.legend()
-        # plt.show()
