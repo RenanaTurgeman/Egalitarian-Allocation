@@ -10,18 +10,25 @@ def egalitarian_allocation(valuations: list[list[float]]):
         # print("new_states", new_states)
         # print("states", states)
         current_state, level = new_states.pop()
+        max_pessimistic = 0
         if level < n:
             # in case that p1 get the stuff
             new_state_p1 = [current_state[0] + valuations[0][level], current_state[1]]
+            pessimistic = pessimistic_division(valuations, states.copy()) + current_state[0]
+            if pessimistic > max_pessimistic:
+                max_pessimistic = pessimistic
             if ((new_state_p1, level + 1) not in states) \
-                    and optimal_division(valuations, states.copy()) >= pessimistic_division(valuations, states.copy()):
+                    and optimal_division(valuations, states.copy()) + current_state[0] >= max_pessimistic:
                 states.append((new_state_p1, level + 1))
                 new_states.append((new_state_p1, level + 1))
 
             # in case that p2 get the staff
             new_state_p2 = [current_state[0], current_state[1] + valuations[1][level]]
+            pessimistic = pessimistic_division(valuations, states.copy()) + current_state[1]
+            if pessimistic > max_pessimistic:
+                max_pessimistic = pessimistic
             if (new_state_p2, level + 1) not in states \
-                    and optimal_division(valuations, states.copy()) >= pessimistic_division(valuations, states.copy()):
+                    and optimal_division(valuations, states.copy()) + current_state[1] >= max_pessimistic:
                 states.append((new_state_p2, level + 1))
                 new_states.append((new_state_p2, level + 1))
                 # print(states)
@@ -87,12 +94,10 @@ def pessimistic_division(valuations: list[list[float]], states: [list[float], in
 
 
 if __name__ == '__main__':
-    # egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
-    egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
+    egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
+    # egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
     # egalitarian_allocation([[4, 5], [8, 7]])
     # egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
-    # egalitarian_allocation([[55, 11], [44, 33]])
-
 
     # valuations = [[4, 5], [8, 7]]
     # result = egalitarian_allocation(valuations)  # ([5, 8], 2)
