@@ -1,14 +1,21 @@
 import random
+import time
+import matplotlib.pyplot as plt
+
+product_time = [[2, 5, 10, 15, 20, 25, 30], []]
 
 
 def egalitarian_allocation(valuations: list[list[float]]):
+    global product_time  # Access the global product_time array
+    start_time = time.time()
+
     n = len(valuations[0])  # number of stuff
     states = [([0, 0], 0)]
     new_states = [([0, 0], 0)]
 
     while new_states:
-        # print("new_states", new_states)
-        # print("states", states)
+        print(states)
+        # print(new_states)
         current_state, level = new_states.pop()
         max_pessimistic = 0
         if level < n:
@@ -35,13 +42,14 @@ def egalitarian_allocation(valuations: list[list[float]]):
 
     # An array that contains the final states in which all stuff were divided
     filtered_states = [state for state in states if state[1] == n]
-    # print(states)
     print(max(filtered_states, key=lambda x: min(x[0])))
+    end_time = time.time()
+    running_time = end_time - start_time
+    if False:  # change if want to print graph
+        product_time[1].append(running_time)
     return max(filtered_states, key=lambda x: min(x[0]))
 
 
-# in the optimal_division and the pessimistic_division I don't add the value the students already have, because this
-# amount will be reduced when compared
 def optimal_division(valuations: list[list[float]], states: [list[float], int]) -> float:
     num = len(valuations[0])  # number of stuff
     current_state, level = states.pop()
@@ -92,13 +100,48 @@ def pessimistic_division(valuations: list[list[float]], states: [list[float], in
 #         items_str = ', '.join(map(str, items))
 #         print(f"Player {player} gets items {items_str} with value {value}")
 
+def print_graph():
+    egalitarian_allocation([[4, 5], [8, 7]])
+    # print(product_time)
+    egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
+    # print(product_time)
+    egalitarian_allocation([[4, 5, 6, 7, 8, 6, 7, 8, 9, 2], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8]])  # 10
+    # print(product_time)
+    egalitarian_allocation(
+        [[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8], [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8]])  # 15
+    # print(product_time)
+    egalitarian_allocation([[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8, 2, 4, 1, 9, 5],
+                            [8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]])  # 20
+    # print(product_time)
+    egalitarian_allocation([[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 7, 8, 2, 4, 1, 9, 5, 4, 5, 6, 7, 8],
+                            [4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1, 5]])  # 25
+    # print(product_time)
+    egalitarian_allocation([[4, 5, 6, 7, 8, 6, 7, 8, 9, 2, 4, 5, 6, 4, 5, 6, 7, 8, 7, 8, 2, 4, 1, 9, 5, 4, 5, 6, 7, 8],
+                            [4, 5, 6, 7, 8, 8, 4, 5, 6, 7, 8, 7, 6, 5, 4, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 6, 1, 9, 1,
+                             5]])  # 30
+
+    # print(product_time)
+
+    # Extract x and y values from product_time
+    x_values = product_time[0]
+    y_values = product_time[1]
+
+    # Plot the graph
+    plt.plot(x_values, y_values, marker='o', linestyle='-')
+    plt.title('Running Time vs. Input Size')
+    plt.xlabel('Input Size')
+    plt.ylabel('Running Time (seconds)')
+    plt.grid(True)
+    plt.show()
+
 
 if __name__ == '__main__':
-    egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
+    # egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
     # egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
-    # egalitarian_allocation([[4, 5], [8, 7]])
+    egalitarian_allocation([[4, 5], [8, 7]])
     # egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
 
     # valuations = [[4, 5], [8, 7]]
     # result = egalitarian_allocation(valuations)  # ([5, 8], 2)
     # print_allocation(result, valuations)
+    # print_graph()

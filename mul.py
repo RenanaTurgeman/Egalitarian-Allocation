@@ -99,6 +99,6 @@ if __name__ == '__main__':
     mul_egalitarian_allocation([[4, 5], [8, 7]])
     mul_egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
 
-    valuations = [[4, 5], [8, 7]]
-    result = mul_egalitarian_allocation(valuations)  # ([5, 8], 2)
-    print_allocation(result, valuations)
+    # valuations = [[4, 5], [8, 7]]
+    # result = mul_egalitarian_allocation(valuations)  # ([5, 8], 2)
+    # print_allocation(result, valuations)
