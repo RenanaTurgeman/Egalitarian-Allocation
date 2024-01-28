@@ -1,6 +1,4 @@
 import random
-import time
-import matplotlib.pyplot as plt
 
 
 def egalitarian_allocation(valuations: list[list[float]]):
@@ -42,7 +40,6 @@ def egalitarian_allocation(valuations: list[list[float]]):
                     and optimal_division(valuations, states.copy()) + current_state[1] >= max_pessimistic:
                 states.append((new_state_p2, level + 1, current_state))
                 new_states.append((new_state_p2, level + 1, current_state))
-
     # An array that contains the final states in which all stuff were divided
     filtered_states = [state for state in states if state[1] == n]
     final_state = max(filtered_states, key=lambda x: min(x[0]))
@@ -66,7 +63,7 @@ def find_parent(states, target_vector):
 def create_results(path):
     results = {0: [], 1: []}
     staff = 0
-    path.reverse() # for move from the root to the leaf
+    path.reverse()  # for move from the root to the leaf
     for state, next_state in zip(path, path[1:]):
         if state[0] != next_state[0]:
             # player 0 take the current staff
@@ -117,10 +114,8 @@ def pessimistic_division(valuations: list[list[float]], states: [list[float], in
     return min(sum_value_p1, sum_value_p2)
 
 
-
 if __name__ == '__main__':
     egalitarian_allocation([[4, 5, 6, 7, 8], [8, 7, 6, 5, 4]])
     # egalitarian_allocation([[4, 5, 6, 7], [8, 7, 6, 5]])
     # egalitarian_allocation([[4, 5], [8, 7]])
     # egalitarian_allocation([[6, 7, 9], [9, 7, 6]])
-
